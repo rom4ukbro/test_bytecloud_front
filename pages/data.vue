@@ -56,7 +56,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
   import { mapActions } from "vuex";
   import CreateBulkResult from "@/components/dialogs/CreateBulkResult.vue";
   import ClearResult from "@/components/dialogs/ClearResult.vue";
@@ -74,16 +74,13 @@
       CreateBulkResult,
       ClearResult,
     },
-    data(): typeof defaultValues {
+    data() {
       return {
         ...defaultValues,
       };
     },
     created() {
-      for (const key of Object.keys(defaultValues) as Array<
-        keyof typeof defaultValues
-      >) {
-        // @ts-ignore
+      for (const key of Object.keys(defaultValues)) {
         this[key] = defaultValues[key];
       }
     },
@@ -150,18 +147,12 @@
         }
         this.clearLoading = false;
       },
-      parsePatientOrDoctors(str: string) {
+      parsePatientOrDoctors(str) {
         str = this.normalizeString(str);
         if (!str) return [];
 
         const arr = str.split("\n").map((item) => item.split(","));
-        const result: {
-          _id: number;
-          from: number;
-          to: number;
-          name?: string;
-          birthday?: string;
-        }[] = [];
+        const result = [];
 
         for (const item of arr) {
           const _id = parseInt(item[0]);
@@ -169,13 +160,7 @@
           const nameOrBirthday = item[2]?.trim();
           const birthday = item[3]?.trim();
 
-          const obj: {
-            _id: number;
-            from: number;
-            to: number;
-            name?: string;
-            birthday?: string;
-          } = {
+          const obj= {
             _id,
             from: time?.[0],
             to: time?.[1],
@@ -203,16 +188,12 @@
 
         return result;
       },
-      parseAppointments(str: string) {
+      parseAppointments(str) {
         str = this.normalizeString(str);
         if (!str) return [];
 
         const arr = str.split("\n").map((item) => item.split(","));
-        const result: {
-          patient: number;
-          doctor: number;
-          time: number;
-        }[] = [];
+        const result = [];
 
         for (const item of arr) {
           const patient = parseInt(item[0]);
@@ -228,7 +209,7 @@
 
         return result;
       },
-      normalizeString(str: string) {
+      normalizeString(str) {
         return str
           .trim()
           .replace(/^\s*$(?:\r\n?|\n)/gm, "")
