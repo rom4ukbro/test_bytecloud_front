@@ -2,14 +2,14 @@ FROM node:18.15.0
 
 WORKDIR /test_bytecloud_frontend
 
-COPY "package.json" . 
+COPY "package.json" .
 
 RUN npm i 
 
 COPY . . 
 
-RUN npm run build
-
 ENV NODE_OPTIONS=--openssl-legacy-provider
+
+RUN npm run build
 
 CMD ["npm", "run", "start"]
