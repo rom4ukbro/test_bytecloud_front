@@ -1,6 +1,6 @@
 {
   "name": "test_byteCloud_front",
-  "version": "1.0xw",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "nuxt",

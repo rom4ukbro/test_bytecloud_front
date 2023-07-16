@@ -15,7 +15,7 @@
                   Appointment Info
                 </v-toolbar-title>
                 <v-spacer />
-                <v-btn icon @click="close" class="mr-3 white--text">
+                <v-btn icon class="mr-3 white--text" @click="close">
                   <v-icon>mdi-close</v-icon>
                 </v-btn>
               </v-toolbar>
@@ -23,7 +23,10 @@
             <v-card-text class="pa-12">
               <v-row> Patient: {{ patient }} </v-row>
               <v-row> Doctor: {{ doctor }} </v-row>
-              <v-row> Appointment time: {{ appointment?.time }} </v-row>
+              <v-row>
+                Appointment time:
+                {{ appointment?.time !== undefined ? appointment.time : "-" }}
+              </v-row>
               <v-row> Appointment status: {{ appointment?.status }} </v-row>
             </v-card-text>
           </v-card>
@@ -40,25 +43,25 @@ export default {
     return {
       dialog: false,
       appointment: null,
-      resolvePromise: undefined,
+      resolvePromise: undefined
     }
   },
   computed: {
     patient () {
       const patient = this.appointment?.patient
-      if (!patient) return null
+      if (!patient) { return null }
       let res = `${patient.id}`
-      if (patient.from && patient.to) res += `, ${patient.from}-${patient.to}`
-      if (patient.name) res += `, ${patient.name}`
-      if (patient.birthday) res += `, ${this.$moment(patient.birthday).format('DD.MM.YYYY')}`
+      if (patient.from !== undefined && patient.to !== undefined) { res += `, ${patient.from}-${patient.to}` }
+      if (patient.name) { res += `, ${patient.name}` }
+      if (patient.birthday) { res += `, ${this.$moment(patient.birthday).format('DD.MM.YYYY')}` }
       return res
     },
-    doctor() {
+    doctor () {
       const doctor = this.appointment?.doctor
-      if (!doctor) return null
+      if (!doctor) { return null }
       let res = `${doctor.id}`
-      if (doctor.from && doctor.to) res += `, ${doctor.from}-${doctor.to}`
-      if (doctor.name) res += `, ${doctor.name}`
+      if (doctor.from !== undefined && doctor.to !== undefined) { res += `, ${doctor.from}-${doctor.to}` }
+      if (doctor.name) { res += `, ${doctor.name}` }
 
       return res
     }
